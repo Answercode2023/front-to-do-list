@@ -50,6 +50,7 @@ import { columns } from "./task-columns";
 import { DatePicker } from "./date-picker";
 import { toast } from "sonner";
 import { HoverCardDemo } from "./HoverCard";
+import { AlertDialogForm } from "./AlertDialogForm";
 
 // Mock de dados para simular a resposta da sua API
 const mockData: Task[] = [
@@ -97,14 +98,14 @@ export function TaskTable() {
     );
   };
 
-  const handleCreateTask = () => {
-    toast(
-      <>
-        <strong>Tarefa Criada!</strong>
-        <div>Sua nova tarefa foi adicionada com sucesso.</div>
-      </>
-    );
-  };
+  // const handleCreateTask = () => {
+  //   toast(
+  //     <>
+  //       <strong>Tarefa Criada!</strong>
+  //       <div>Sua nova tarefa foi adicionada com sucesso.</div>
+  //     </>
+  //   );
+  // };
 
   // MUDANÇA PRINCIPAL: Envelopamos tudo em um componente Card
   return (
@@ -119,48 +120,7 @@ export function TaskTable() {
             </CardDescription>
           </div>
 
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button>Nova Tarefa</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Criar Nova Tarefa</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Preencha as informações abaixo para adicionar uma nova tarefa
-                  à sua lista.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="title" className="text-right">
-                    Título
-                  </Label>
-                  <Input
-                    id="title"
-                    placeholder="Ex: Fazer compras"
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="description" className="text-right">
-                    Descrição
-                  </Label>
-                  <Input
-                    id="description"
-                    placeholder="Ex: Comprar leite e pão"
-                    className="col-span-3"
-                  />
-                </div>
-              </div>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction onClick={handleCreateTask}>
-                  Salvar
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <AlertDialogForm/>
         </div>
       </CardHeader>
 

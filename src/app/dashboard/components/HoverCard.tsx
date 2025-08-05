@@ -2,11 +2,11 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 
 export function HoverCardDemo() {
   return (
-    <HoverCard>
+    <HoverCard >
       <HoverCardTrigger >
         Filtros Avançados
       </HoverCardTrigger>
-      <HoverCardContent className="w-80">
+      <HoverCardContent className="w-80 ml-5">
         <div className="space-y-2">
           <h4 className="text-sm font-semibold">Opções de Filtro</h4>
           <p className="text-sm">
