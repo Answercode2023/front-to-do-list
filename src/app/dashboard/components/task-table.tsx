@@ -51,31 +51,11 @@ import { DatePicker } from "./date-picker";
 import { toast } from "sonner";
 import { HoverCardDemo } from "./HoverCard";
 import { AlertDialogForm } from "./AlertDialogForm";
+import { getTasksByDate } from "../action/task-table-action";
 
-// Mock de dados para simular a resposta da sua API
-const mockData: Task[] = [
-  {
-    id: 1,
-    title: "Estudar Django (Atualizado)",
-    description: "Focar muito no DRF",
-    is_completed: true,
-    created_at: "2025-08-04T23:49:42.066494Z",
-    user: 1,
-    category: null,
-  },
-  {
-    id: 2,
-    title: "Estudar Java",
-    description: "Focar no POO",
-    is_completed: false,
-    created_at: "2025-08-05T19:02:53.542047Z",
-    user: 1,
-    category: null,
-  },
-];
 
 export function TaskTable() {
-  const [data, setData] = React.useState<Task[]>(mockData);
+  const [data, setData] = React.useState<Task[]>([]);
   const [dateInicial, setDateInicial] = React.useState<Date>();
   const [dateFinal, setDateFinal] = React.useState<Date>();
 
@@ -85,27 +65,37 @@ export function TaskTable() {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const handleFilter = () => {
-    toast(
-      <>
-        <strong>Filtro Aplicado!</strong>
-        <div>
-          {`Filtrando tarefas de ${dateInicial?.toLocaleDateString(
-            "pt-BR"
-          )} a ${dateFinal?.toLocaleDateString("pt-BR")}.`}
-        </div>
-      </>
-    );
+  const handleFilter = async () => {
+    if (!dateInicial || !dateFinal) return;
+
+    const isoInicial = dateInicial.toISOString();
+    const isoFinal = dateFinal.toISOString();
+
+    console.log("Buscando tarefas de", isoInicial, "até", isoFinal);
+
+    const response = await getTasksByDate({
+      data_inicial: isoInicial,
+      data_final: isoFinal,
+    });
+
+    if (response) {
+      console.log("Resposta recebida no front:", response);
+      setData(response);
+      toast(
+        <>
+          <strong>Filtro Aplicado!</strong>
+          <div>
+            Tarefas de {dateInicial.toLocaleDateString("pt-BR")} até{" "}
+            {dateFinal.toLocaleDateString("pt-BR")}
+          </div>
+        </>
+      );
+    } else {
+      toast.error("Erro ao buscar tarefas.");
+    }
   };
 
-  // const handleCreateTask = () => {
-  //   toast(
-  //     <>
-  //       <strong>Tarefa Criada!</strong>
-  //       <div>Sua nova tarefa foi adicionada com sucesso.</div>
-  //     </>
-  //   );
-  // };
+  
 
   // MUDANÇA PRINCIPAL: Envelopamos tudo em um componente Card
   return (
@@ -120,7 +110,7 @@ export function TaskTable() {
             </CardDescription>
           </div>
 
-          <AlertDialogForm/>
+          <AlertDialogForm />
         </div>
       </CardHeader>
 
@@ -170,9 +160,9 @@ export function TaskTable() {
                           {header.isPlaceholder
                             ? null
                             : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                         </TableHead>
                       );
                     })}

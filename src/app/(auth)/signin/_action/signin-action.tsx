@@ -3,6 +3,7 @@
 import api from "@/services/api";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default async function SignInAction(formData: FormData) {
   const username = formData.get("username") as string;
@@ -25,12 +26,13 @@ export default async function SignInAction(formData: FormData) {
       return { success: false, error: "Token não recebido da API." };
     }
 
-    // A MANEIRA CORRETA: Armazenar o token em um cookie HTTP-Only
+    
+
     (await cookies()).set("token", token, {
-      httpOnly: true, // O cookie não pode ser acessado por JavaScript no cliente (mais seguro)
-      secure: process.env.NODE_ENV === "production", // Use 'secure' em produção (HTTPS)
-      maxAge: 60 * 60 * 24 * 7, // 1 semana
-      path: "/", // O cookie está disponível para todo o site
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7,
+      path: "/",
     });
 
     console.log("Token recebido e cookie definido com sucesso!");
@@ -49,8 +51,8 @@ export default async function SignInAction(formData: FormData) {
   }
 
   // Se tudo deu certo, redireciona para o dashboard
-//   redirect("/dashboard");
-    return { success: true };
+  //   redirect("/dashboard");
+  return { success: true };
 }
 
 

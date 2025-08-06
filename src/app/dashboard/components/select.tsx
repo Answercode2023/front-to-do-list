@@ -11,17 +11,19 @@ import {
 } from "@/components/ui/select"
 
 export function SelectActive() {
+  const [selectedTaskType, setSelectedTaskType] = React.useState("")
   return (
-    <Select>
+    <Select name="taskType" value={selectedTaskType}
+        onValueChange={(value) => setSelectedTaskType(value)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select your Task" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Fruits</SelectLabel>
-          <SelectItem value="Tarefas diárias">Tarefa diária</SelectItem>
-          <SelectItem value="Tarefas semanais">Tarefa semanal</SelectItem>
-          <SelectItem value="Tarefas mensais">Tarefa mensal</SelectItem>
+          <SelectItem  value="2">Tarefa diária</SelectItem>
+          <SelectItem value="1">Tarefa semanal</SelectItem>
+          <SelectItem value="3">Tarefa mensal</SelectItem>
           
         </SelectGroup>
       </SelectContent>

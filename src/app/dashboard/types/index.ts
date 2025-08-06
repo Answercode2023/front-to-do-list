@@ -7,7 +7,7 @@ export type Task = {
   is_completed: boolean;
   created_at: string; 
   user: number;
-  category: number | null;
+  category: number ;
 };
 
 export type ApiResponse = {
